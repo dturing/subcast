@@ -1,0 +1,41 @@
+/*
+  Global App CSS
+  ----------------------
+  Use this file for styles that should be applied to all components.
+  For example, "font-family" within the "body" selector is a CSS property
+  most apps will want applied to all components.
+
+  Any global CSS variables should also be applied here.
+*/
+
+
+body {
+  background: black;
+  color: lightgray;
+  padding: 0;
+  margin: 20px;
+  user-select: none;
+}
+
+* {
+  font-family: Roboto;
+}
+
+* {
+  --mdc-theme-on-primary: black;
+  --mdc-theme-primary: lightgray;
+  --mdc-theme-on-secondary: lightgray;
+  --mdc-theme-secondary: black;
+
+  --green: #0a0;
+  --green-bright: #0f0;
+  --green-dark: #060;
+}
+
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/materialicons/v47/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+}

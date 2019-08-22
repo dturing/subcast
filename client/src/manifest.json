@@ -1,0 +1,13 @@
+{
+  "name": "subcast",
+  "short_name": "subcast",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [{
+    "src": "assets/icon/icon.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "background_color": "#333333",
+  "theme_color": "#00aa00"
+}

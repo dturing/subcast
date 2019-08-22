@@ -1,0 +1,30 @@
+{
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "hosting": {
+    "public": "public",
+    "predeploy": "npm --prefix \"client\" run build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      { "source": "/ice", "function": "ice" },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+          "source": "**/*.html",
+          "headers": [{
+            "key": "Cache-Control",
+            "value": "max-age=0, no-cache"
+          }]
+      }
+    ]
+  }
+}
