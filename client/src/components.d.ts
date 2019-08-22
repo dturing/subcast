@@ -11,11 +11,6 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 export namespace Components {
   interface App404 {}
   interface AppRoot {}
-  interface CodeEntry {
-    'code': string;
-    'disabled': boolean;
-    'length': number;
-  }
   interface FirebaseAuth {}
   interface MdcButton {
     'dense': boolean;
@@ -63,12 +58,6 @@ declare global {
     new (): HTMLAppRootElement;
   };
 
-  interface HTMLCodeEntryElement extends Components.CodeEntry, HTMLStencilElement {}
-  var HTMLCodeEntryElement: {
-    prototype: HTMLCodeEntryElement;
-    new (): HTMLCodeEntryElement;
-  };
-
   interface HTMLFirebaseAuthElement extends Components.FirebaseAuth, HTMLStencilElement {}
   var HTMLFirebaseAuthElement: {
     prototype: HTMLFirebaseAuthElement;
@@ -113,7 +102,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'app-404': HTMLApp404Element;
     'app-root': HTMLAppRootElement;
-    'code-entry': HTMLCodeEntryElement;
     'firebase-auth': HTMLFirebaseAuthElement;
     'mdc-button': HTMLMdcButtonElement;
     'mdc-chip': HTMLMdcChipElement;
@@ -127,12 +115,6 @@ declare global {
 declare namespace LocalJSX {
   interface App404 extends JSXBase.HTMLAttributes<HTMLApp404Element> {}
   interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
-  interface CodeEntry extends JSXBase.HTMLAttributes<HTMLCodeEntryElement> {
-    'code'?: string;
-    'disabled'?: boolean;
-    'length'?: number;
-    'onSubmitCode'?: (event: CustomEvent<any>) => void;
-  }
   interface FirebaseAuth extends JSXBase.HTMLAttributes<HTMLFirebaseAuthElement> {}
   interface MdcButton extends JSXBase.HTMLAttributes<HTMLMdcButtonElement> {
     'dense'?: boolean;
@@ -167,7 +149,6 @@ declare namespace LocalJSX {
   interface IntrinsicElements {
     'app-404': App404;
     'app-root': AppRoot;
-    'code-entry': CodeEntry;
     'firebase-auth': FirebaseAuth;
     'mdc-button': MdcButton;
     'mdc-chip': MdcChip;

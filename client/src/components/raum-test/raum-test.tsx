@@ -10,9 +10,32 @@ import Firebase from '../../services/firebase';
 export class RaumTest {
 
   componentDidLoad() {
-    console.log("RaumTest Load");
+
     Firebase.onAuthorized((user) => {
-      console.log("Firebase authorized: ", user);
+
+      var userName = user.isAnonymous?"anon":user.displayName;
+      console.log("Firebase authorized.", userName);
+
+      var activePath = firebase.database().ref("/rebel/"+user.uid);
+
+      activePath.onDisconnect().remove().then(()=>{
+
+        if (navigator.geolocation) {
+          navigator.geolocation.watchPosition((p) => {
+            let t = { 
+                t:p.timestamp,
+                n:userName,
+                lat:p.coords.latitude, lon:p.coords.longitude
+              };
+            console.log("- set geolocation", t);
+            activePath.set(t);
+          });
+        } else {
+          console.log("need geolocation");
+        }
+
+      });
+
 
 /*
       firebase.database()

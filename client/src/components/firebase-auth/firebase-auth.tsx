@@ -23,23 +23,24 @@ export class FirebaseAuth {
     this.firebase.auth().onAuthStateChanged((user) => {
       this.user = user;
       Firebase.user = user;
-//        console.log("SET USER", user? user.isAnonymous?"anon":user.displayName : "none");
+        console.log("SET USER", user? user.isAnonymous?"anon":user.displayName : "none");
 
-      if (!user) this.anonymousLogin();
-      //this.googleLogin();
-      else {
+      if (!user) {
+        //this.anonymousLogin();
+        this.googleLogin();
+      } else {
         Firebase.setUser(user);
       }
     });
 
   } 
-
+/*
   anonymousLogin() {
     firebase.auth().signInAnonymously().catch(error => {
       this.error = error;
     });
   }
-
+*/
   googleLogin() {
     let provider = new this.firebase.auth.GoogleAuthProvider();
     provider.addScope('profile');
