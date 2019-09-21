@@ -17,11 +17,8 @@ export class ScPreview {
   @State() audioSource: AudioNode;
   analyser: AnalyserNode;
 
-  @State() freqs: Uint8Array;
   @State() times: Uint8Array;
   @State() size: number = 128;
-
-  spectrumBar = [];
 
   @State() canvas: HTMLCanvasElement;
   @State() overlayCanvas: HTMLCanvasElement;
@@ -32,9 +29,7 @@ export class ScPreview {
 
   componentWillLoad() {
     this.audioContext = new AudioContext();
-    this.freqs = new Uint8Array(this.size);
     this.times = new Uint8Array(this.size);
-
   }
 
   componentDidLoad() {
@@ -70,38 +65,33 @@ export class ScPreview {
 
           var octx = this.overlayCanvas.getContext("2d");
 
-          var peak = 0;
-
           setInterval(()=>{
-            this.analyser.getByteFrequencyData(this.freqs)
-            peak = Math.max.apply( null, this.freqs );
-            this.spectrumBar[0].style.width = ""+peak+"px";
 
             this.analyser.getByteTimeDomainData(this.times);
 
             // draw scope
-              octx.clearRect(0,0,this.overlayCanvas.width,this.overlayCanvas.height);
-              octx.beginPath()
+            octx.clearRect(0,0,this.overlayCanvas.width,this.overlayCanvas.height);
+            octx.beginPath()
 
-              var widthFactor = this.overlayCanvas.width/this.size;
-              var heightFactor = 1;
-              var yOffset = this.overlayCanvas.height/2;
-              for (let i = 0; i < this.size; i++) {
-                const x = i*widthFactor;
-                const y = yOffset + (this.times[i]-128)*heightFactor; //*f(i/this.size);
-                if (i == 0) {
-                  octx.moveTo(x, y)
-                } else {
-                  octx.lineTo(x, y);
-                }
+            var widthFactor = this.overlayCanvas.width/this.size;
+            var heightFactor = 1;
+            var yOffset = this.overlayCanvas.height/2;
+            for (let i = 0; i < this.size; i++) {
+              const x = i*widthFactor;
+              const y = yOffset + (this.times[i]-128)*heightFactor; //*f(i/this.size);
+              if (i == 0) {
+                octx.moveTo(x, y)
+              } else {
+                octx.lineTo(x, y);
               }
-          
-              octx.strokeStyle = "white";
-              octx.lineWidth = 1;
-              octx.stroke();
+            }
+        
+            octx.strokeStyle = "white";
+            octx.lineWidth = 1;
+            octx.stroke();
 
 
-          }, 50);
+          }, 1000/25);
 
           setInterval(()=>{
             ctx.drawImage(this.videoElement, 0, 0, width, height);
@@ -129,18 +119,8 @@ export class ScPreview {
 
   render() {
     return <div>
-        <div id="feed">
-          <video autoplay playsinline ref={(el) => this.videoElement = el as HTMLVideoElement}/>
-          <canvas id="overlay" width="160" height="120" ref={(el) => this.overlayCanvas = el as HTMLCanvasElement} ></canvas>
-        </div>
-
-        <div class="spectrum">
-          <div ref={(el) => this.spectrumBar[0] = el as HTMLElement }></div>
-          <div ref={(el) => this.spectrumBar[1] = el as HTMLElement }></div>
-          <div ref={(el) => this.spectrumBar[2] = el as HTMLElement }></div>
-          <div ref={(el) => this.spectrumBar[3] = el as HTMLElement }></div>
-          <div ref={(el) => this.spectrumBar[4] = el as HTMLElement }></div>
-        </div>
+        <video autoplay playsinline ref={(el) => this.videoElement = el as HTMLVideoElement}/>
+        <canvas id="overlay" width="100" height="100" ref={(el) => this.overlayCanvas = el as HTMLCanvasElement} ></canvas>
 
         <canvas id="canvas" width="160" height="120" ref={(el) => this.canvas = el as HTMLCanvasElement} ></canvas>
         <img id="photo" width="160" height="120" ref={(el) => this.photo = el as HTMLImageElement} ></img>
