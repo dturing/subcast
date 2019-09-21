@@ -41,7 +41,15 @@ export namespace Components {
     'value': string;
   }
   interface RaumTest {}
-  interface ScPreview {}
+  interface ScAudioviz {
+    'stream': MediaStream;
+  }
+  interface ScPreview {
+    'height': number;
+    'videoElement': HTMLVideoElement;
+    'width': number;
+  }
+  interface ScUpstream {}
 }
 
 declare global {
@@ -101,10 +109,22 @@ declare global {
     new (): HTMLRaumTestElement;
   };
 
+  interface HTMLScAudiovizElement extends Components.ScAudioviz, HTMLStencilElement {}
+  var HTMLScAudiovizElement: {
+    prototype: HTMLScAudiovizElement;
+    new (): HTMLScAudiovizElement;
+  };
+
   interface HTMLScPreviewElement extends Components.ScPreview, HTMLStencilElement {}
   var HTMLScPreviewElement: {
     prototype: HTMLScPreviewElement;
     new (): HTMLScPreviewElement;
+  };
+
+  interface HTMLScUpstreamElement extends Components.ScUpstream, HTMLStencilElement {}
+  var HTMLScUpstreamElement: {
+    prototype: HTMLScUpstreamElement;
+    new (): HTMLScUpstreamElement;
   };
   interface HTMLElementTagNameMap {
     'app-404': HTMLApp404Element;
@@ -116,7 +136,9 @@ declare global {
     'mdc-select': HTMLMdcSelectElement;
     'mdc-textfield': HTMLMdcTextfieldElement;
     'raum-test': HTMLRaumTestElement;
+    'sc-audioviz': HTMLScAudiovizElement;
     'sc-preview': HTMLScPreviewElement;
+    'sc-upstream': HTMLScUpstreamElement;
   }
 }
 
@@ -153,7 +175,15 @@ declare namespace LocalJSX {
     'value'?: string;
   }
   interface RaumTest extends JSXBase.HTMLAttributes<HTMLRaumTestElement> {}
-  interface ScPreview extends JSXBase.HTMLAttributes<HTMLScPreviewElement> {}
+  interface ScAudioviz extends JSXBase.HTMLAttributes<HTMLScAudiovizElement> {
+    'stream'?: MediaStream;
+  }
+  interface ScPreview extends JSXBase.HTMLAttributes<HTMLScPreviewElement> {
+    'height'?: number;
+    'videoElement'?: HTMLVideoElement;
+    'width'?: number;
+  }
+  interface ScUpstream extends JSXBase.HTMLAttributes<HTMLScUpstreamElement> {}
 
   interface IntrinsicElements {
     'app-404': App404;
@@ -165,7 +195,9 @@ declare namespace LocalJSX {
     'mdc-select': MdcSelect;
     'mdc-textfield': MdcTextfield;
     'raum-test': RaumTest;
+    'sc-audioviz': ScAudioviz;
     'sc-preview': ScPreview;
+    'sc-upstream': ScUpstream;
   }
 }
 

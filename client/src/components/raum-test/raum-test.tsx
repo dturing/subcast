@@ -57,7 +57,7 @@ export class RaumTest {
 
 
   render() {
-    return <div><sc-preview /></div>
+    return <div><sc-upstream /></div>
   }
 
 }

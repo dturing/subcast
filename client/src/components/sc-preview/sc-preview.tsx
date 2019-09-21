@@ -1,8 +1,4 @@
-import { Component, State, h } from '@stencil/core';
-/*
-import firebase from 'firebase/app';
-import Firebase from '../../services/firebase';
-*/
+import { Component, Prop, Watch, State, h } from '@stencil/core';
 
 @Component({
   tag: 'sc-preview',
@@ -11,120 +7,37 @@ import Firebase from '../../services/firebase';
 })
 export class ScPreview {
 
-  videoElement :HTMLVideoElement;
-  
-  @State() audioContext: AudioContext;
-  @State() audioSource: AudioNode;
-  analyser: AnalyserNode;
-
-  @State() times: Uint8Array;
-  @State() size: number = 128;
+  @Prop() width: number = 40;
+  @Prop() height: number = 30;
 
   @State() canvas: HTMLCanvasElement;
-  @State() overlayCanvas: HTMLCanvasElement;
-
-
   @State() photo: HTMLImageElement;
 
+  @Prop() videoElement :HTMLVideoElement;
 
-  componentWillLoad() {
-    this.audioContext = new AudioContext();
-    this.times = new Uint8Array(this.size);
-  }
+  @Watch("videoElement")
+  haveVideoElement(videoElement) {
+    console.log("AudioViz has videoElement:", videoElement);
 
-  componentDidLoad() {
-    console.log("Try to GetUserMedia");
-    navigator.mediaDevices
-      .getUserMedia({audio:true, video:{ facingMode:"environment" }})
-      .then(stream => {
-        console.log("I have a Stream:", stream);
+    var ctx = this.canvas.getContext("2d");
 
-        const videoTracks = stream.getVideoTracks();
-        console.log(`Using video device: ${videoTracks[0].label}`);
-        this.videoElement.srcObject = stream;
-        this.videoElement.volume = 0;
+    setInterval(()=>{
+      ctx.drawImage(videoElement, 0, 0, this.width, this.height);
 
-        const audioTracks = stream.getAudioTracks();
-        if (audioTracks.length>0) {
-          console.log("Using Audio device", audioTracks[0].label);
-          if (this.audioContext) this.audioContext.resume();
+      var data = this.canvas.toDataURL('image/png');
+      //console.log(data);
+      this.photo.setAttribute('src', data);
 
-          this.analyser = this.audioContext.createAnalyser();
-          this.analyser.smoothingTimeConstant = 0.8;
-          this.analyser.fftSize = this.size;
+    }, 1000);
 
-          this.audioSource = this.audioContext.createMediaStreamSource(stream);
-          this.audioSource.connect(this.analyser);
-
-//    requestAnimationFrame(this.draw.bind(this));
-          var ctx = this.canvas.getContext("2d");
-          var width = 40;
-          var height = 30;
-          this.canvas.width = width;
-          this.canvas.height = height;
-
-          var octx = this.overlayCanvas.getContext("2d");
-
-          setInterval(()=>{
-
-            this.analyser.getByteTimeDomainData(this.times);
-
-            // draw scope
-            octx.clearRect(0,0,this.overlayCanvas.width,this.overlayCanvas.height);
-            octx.beginPath()
-
-            var widthFactor = this.overlayCanvas.width/this.size;
-            var heightFactor = 1;
-            var yOffset = this.overlayCanvas.height/2;
-            for (let i = 0; i < this.size; i++) {
-              const x = i*widthFactor;
-              const y = yOffset + (this.times[i]-128)*heightFactor; //*f(i/this.size);
-              if (i == 0) {
-                octx.moveTo(x, y)
-              } else {
-                octx.lineTo(x, y);
-              }
-            }
         
-            octx.strokeStyle = "white";
-            octx.lineWidth = 1;
-            octx.stroke();
-
-
-          }, 1000/25);
-
-          setInterval(()=>{
-            ctx.drawImage(this.videoElement, 0, 0, width, height);
-
-            var data = this.canvas.toDataURL('image/png');
-//            console.log(data);
-            this.photo.setAttribute('src', data);
-
-          }, 1000);
-
-        }
-        stream.getTracks().forEach(_track => {
-//          var hack = pc as any;
-//          hack.addTrack(track, stream);
-        });
-
-        //createOffer();
-
-      })
-      .catch(e => {
-        console.log("getUserMedia error:", e.name);
-      });
   }
   
 
   render() {
     return <div>
-        <video autoplay playsinline ref={(el) => this.videoElement = el as HTMLVideoElement}/>
-        <canvas id="overlay" width="100" height="100" ref={(el) => this.overlayCanvas = el as HTMLCanvasElement} ></canvas>
-
-        <canvas id="canvas" width="160" height="120" ref={(el) => this.canvas = el as HTMLCanvasElement} ></canvas>
+        <canvas id="canvas" width={this.width} height={this.height} ref={(el) => this.canvas = el as HTMLCanvasElement} ></canvas>
         <img id="photo" width="160" height="120" ref={(el) => this.photo = el as HTMLImageElement} ></img>
-
       </div>
   }
 
