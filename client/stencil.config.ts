@@ -22,7 +22,7 @@ export const config: Config = {
   devServer: {
     openBrowser: false,
     address: "d.labenz",
-    port: 4000,
+    port: 3000,
     reloadStrategy: "pageReload"
   }
 };

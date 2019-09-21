@@ -41,6 +41,7 @@ export namespace Components {
     'value': string;
   }
   interface RaumTest {}
+  interface ScPreview {}
 }
 
 declare global {
@@ -99,6 +100,12 @@ declare global {
     prototype: HTMLRaumTestElement;
     new (): HTMLRaumTestElement;
   };
+
+  interface HTMLScPreviewElement extends Components.ScPreview, HTMLStencilElement {}
+  var HTMLScPreviewElement: {
+    prototype: HTMLScPreviewElement;
+    new (): HTMLScPreviewElement;
+  };
   interface HTMLElementTagNameMap {
     'app-404': HTMLApp404Element;
     'app-root': HTMLAppRootElement;
@@ -109,6 +116,7 @@ declare global {
     'mdc-select': HTMLMdcSelectElement;
     'mdc-textfield': HTMLMdcTextfieldElement;
     'raum-test': HTMLRaumTestElement;
+    'sc-preview': HTMLScPreviewElement;
   }
 }
 
@@ -145,6 +153,7 @@ declare namespace LocalJSX {
     'value'?: string;
   }
   interface RaumTest extends JSXBase.HTMLAttributes<HTMLRaumTestElement> {}
+  interface ScPreview extends JSXBase.HTMLAttributes<HTMLScPreviewElement> {}
 
   interface IntrinsicElements {
     'app-404': App404;
@@ -156,6 +165,7 @@ declare namespace LocalJSX {
     'mdc-select': MdcSelect;
     'mdc-textfield': MdcTextfield;
     'raum-test': RaumTest;
+    'sc-preview': ScPreview;
   }
 }
 

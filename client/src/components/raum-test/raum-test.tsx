@@ -57,7 +57,7 @@ export class RaumTest {
 
 
   render() {
-    return <div>RaumTest</div>
+    return <div><sc-preview /></div>
   }
 
 }

@@ -23,7 +23,7 @@ export class FirebaseAuth {
     this.firebase.auth().onAuthStateChanged((user) => {
       this.user = user;
       Firebase.user = user;
-        console.log("SET USER", user? user.isAnonymous?"anon":user.displayName : "none");
+      //  console.log("SET USER", user? user.isAnonymous?"anon":user.displayName : "none");
 
       if (!user) {
         //this.anonymousLogin();
