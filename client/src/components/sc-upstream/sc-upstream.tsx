@@ -1,5 +1,7 @@
 import { Component, Prop, Watch, Event, EventEmitter, h } from '@stencil/core';
 import Peer from 'peerjs';
+import firebase from 'firebase/app';
+import Firebase from '../../services/firebase';
 
 @Component({
   tag: 'sc-upstream',
@@ -60,7 +62,27 @@ export class ScUpstream {
     this.peer.on('open', (peerId) => {
 
         console.log("#################### peerjs", peerId);
-        this.updateUserProp.emit({ peer:peerId });
+    //    this.updateUserProp.emit({ peer:peerId });
+    });
+
+
+    Firebase.onAuthorized((user) => {
+
+      firebase.database()
+      .ref("/listener/"+user.uid)
+      .on("child_added", (snapshot) => {        
+        var listener = snapshot.val();
+
+        console.log("LISTENER ADDED", listener);
+
+        var call = this.peer.call( listener, this.stream);
+        call.on('stream', function(_remoteStream) {
+          // Show stream in some video/canvas element.
+          console.log("----------_____! HAVE PEER STREAM");
+        });
+
+      });
+
     });
 
   }

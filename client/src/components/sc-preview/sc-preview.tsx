@@ -7,8 +7,8 @@ import { Component, Prop, Watch, State, Event, EventEmitter, h } from '@stencil/
 })
 export class ScPreview {
 
-  @Prop() width: number = 40;
-  @Prop() height: number = 30;
+  @Prop() width: number = 160;
+  @Prop() height: number = 120;
 
   @State() canvas: HTMLCanvasElement;
   @State() photo: HTMLImageElement;
@@ -20,24 +20,32 @@ export class ScPreview {
 
 
   @Watch("videoElement")
-  haveVideoElement(videoElement) {
-    console.log("ScPreview has videoElement:", videoElement);
+  haveVideoElement(_videoElement) {
+  }
 
-    var ctx = this.canvas.getContext("2d");
+  componentDidLoad() {
 
-    setInterval(()=>{
-      ctx.drawImage(videoElement, 0, 0, this.width, this.height);
+    setTimeout(()=>{
+      this.shootPreview();
 
-      var data = this.canvas.toDataURL('image/jpeg');
-      //(console.log(data);
-      this.photo.setAttribute('src', data);
-      this.updateUserProp.emit({ preview: data });
+      setInterval(()=>{
+        this.shootPreview();
+      }, 5000);
 
     }, 1000);
 
-        
   }
   
+
+  shootPreview() {
+    var ctx = this.canvas.getContext("2d");
+    ctx.drawImage(this.videoElement, 0, 0, this.width, this.height);
+
+    var data = this.canvas.toDataURL('image/jpeg');
+    //(console.log(data);
+    this.photo.setAttribute('src', data);
+    this.updateUserProp.emit({ preview: data });
+  }
 
   render() {
     return <div>

@@ -44,18 +44,27 @@ export namespace Components {
   interface ScAudioviz {
     'stream': MediaStream;
   }
+  interface ScBrowsercam {}
   interface ScGeolocation {}
+  interface ScPeerview {
+    'feed': any;
+    'feedId': any;
+    'peerId': any;
+  }
   interface ScPreview {
     'height': number;
     'videoElement': HTMLVideoElement;
     'width': number;
   }
-  interface ScUpstream {}
+  interface ScUpstream {
+    'stream': MediaStream;
+  }
   interface ScUserprop {
     'name': string;
     'type': string;
     'value': any;
   }
+  interface ScViewer {}
 }
 
 declare global {
@@ -121,10 +130,22 @@ declare global {
     new (): HTMLScAudiovizElement;
   };
 
+  interface HTMLScBrowsercamElement extends Components.ScBrowsercam, HTMLStencilElement {}
+  var HTMLScBrowsercamElement: {
+    prototype: HTMLScBrowsercamElement;
+    new (): HTMLScBrowsercamElement;
+  };
+
   interface HTMLScGeolocationElement extends Components.ScGeolocation, HTMLStencilElement {}
   var HTMLScGeolocationElement: {
     prototype: HTMLScGeolocationElement;
     new (): HTMLScGeolocationElement;
+  };
+
+  interface HTMLScPeerviewElement extends Components.ScPeerview, HTMLStencilElement {}
+  var HTMLScPeerviewElement: {
+    prototype: HTMLScPeerviewElement;
+    new (): HTMLScPeerviewElement;
   };
 
   interface HTMLScPreviewElement extends Components.ScPreview, HTMLStencilElement {}
@@ -144,6 +165,12 @@ declare global {
     prototype: HTMLScUserpropElement;
     new (): HTMLScUserpropElement;
   };
+
+  interface HTMLScViewerElement extends Components.ScViewer, HTMLStencilElement {}
+  var HTMLScViewerElement: {
+    prototype: HTMLScViewerElement;
+    new (): HTMLScViewerElement;
+  };
   interface HTMLElementTagNameMap {
     'app-404': HTMLApp404Element;
     'app-root': HTMLAppRootElement;
@@ -155,10 +182,13 @@ declare global {
     'mdc-textfield': HTMLMdcTextfieldElement;
     'raum-test': HTMLRaumTestElement;
     'sc-audioviz': HTMLScAudiovizElement;
+    'sc-browsercam': HTMLScBrowsercamElement;
     'sc-geolocation': HTMLScGeolocationElement;
+    'sc-peerview': HTMLScPeerviewElement;
     'sc-preview': HTMLScPreviewElement;
     'sc-upstream': HTMLScUpstreamElement;
     'sc-userprop': HTMLScUserpropElement;
+    'sc-viewer': HTMLScViewerElement;
   }
 }
 
@@ -198,8 +228,14 @@ declare namespace LocalJSX {
   interface ScAudioviz extends JSXBase.HTMLAttributes<HTMLScAudiovizElement> {
     'stream'?: MediaStream;
   }
+  interface ScBrowsercam extends JSXBase.HTMLAttributes<HTMLScBrowsercamElement> {}
   interface ScGeolocation extends JSXBase.HTMLAttributes<HTMLScGeolocationElement> {
     'onUpdateUserProp'?: (event: CustomEvent<any>) => void;
+  }
+  interface ScPeerview extends JSXBase.HTMLAttributes<HTMLScPeerviewElement> {
+    'feed'?: any;
+    'feedId'?: any;
+    'peerId'?: any;
   }
   interface ScPreview extends JSXBase.HTMLAttributes<HTMLScPreviewElement> {
     'height'?: number;
@@ -207,13 +243,17 @@ declare namespace LocalJSX {
     'videoElement'?: HTMLVideoElement;
     'width'?: number;
   }
-  interface ScUpstream extends JSXBase.HTMLAttributes<HTMLScUpstreamElement> {}
+  interface ScUpstream extends JSXBase.HTMLAttributes<HTMLScUpstreamElement> {
+    'onUpdateUserProp'?: (event: CustomEvent<any>) => void;
+    'stream'?: MediaStream;
+  }
   interface ScUserprop extends JSXBase.HTMLAttributes<HTMLScUserpropElement> {
     'name'?: string;
     'onUpdateUserProp'?: (event: CustomEvent<any>) => void;
     'type'?: string;
     'value'?: any;
   }
+  interface ScViewer extends JSXBase.HTMLAttributes<HTMLScViewerElement> {}
 
   interface IntrinsicElements {
     'app-404': App404;
@@ -226,10 +266,13 @@ declare namespace LocalJSX {
     'mdc-textfield': MdcTextfield;
     'raum-test': RaumTest;
     'sc-audioviz': ScAudioviz;
+    'sc-browsercam': ScBrowsercam;
     'sc-geolocation': ScGeolocation;
+    'sc-peerview': ScPeerview;
     'sc-preview': ScPreview;
     'sc-upstream': ScUpstream;
     'sc-userprop': ScUserprop;
+    'sc-viewer': ScViewer;
   }
 }
 

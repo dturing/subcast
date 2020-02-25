@@ -10,7 +10,10 @@ import Firebase from '../../services/firebase';
 })
 export class ScViewer {
 
-  @State() feeds = {};
+  @State() feeds = [];
+  @State() feedsById = {};
+
+  @State() activeFeed:string = undefined;
   
   componentWillLoad() {
     Firebase.onAuthorized((user) => {
@@ -19,7 +22,7 @@ export class ScViewer {
       console.log("Firebase authorized.", userName);
 
       firebase.database()
-      .ref("/feed/") //"+claims.org)
+      .ref("/feed/")
       .on("value", (snapshot) => {        
         var feeds = snapshot.val();
 
@@ -30,6 +33,7 @@ export class ScViewer {
           fs.push(f);
         }
         this.feeds = fs;
+        this.feedsById = feeds;
       });
 
     });
@@ -40,19 +44,23 @@ export class ScViewer {
   
 
   render() {
-//    VIEWER { JSON.stringify(this.feeds); }
   
     return <div id="sc-viewer">
 
        {this.feeds.map((feed) =>
         <div key={feed.key}>
           <div>{feed.n}</div>
-          <img id="photo" width="160" height="120" src={feed.preview}></img>
+          <img id="photo" width="160" height="120" src={feed.preview} onClick={_e => { this.activeFeed = feed.key; }}></img>
         </div>
       )}
 
-      </div>
-    }
-  }
+       {this.activeFeed 
+         ? <div>
+             <sc-peerview feed={this.feedsById[this.activeFeed]} feedId={this.feedsById[this.activeFeed].key} />
+           </div>
+         : ""
+       }
 
+      </div>
+  }
 }

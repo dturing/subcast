@@ -1,12 +1,19 @@
 {
-  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
   "rules": {
   	"feed": {
   		"$uid": {
   			".read": "auth.uid === $uid",
-  			".write": "auth.uid === $uid"
+  			".write": "auth.uid === $uid"          
   		}
   	},
+    "listener": {
+      "$feedid": {
+        ".read": "auth.uid === $feedid",
+        "$listenerid": {
+          ".write": "auth.uid === $listenerid"
+        }
+      }
+    },
     ".read": true,
     ".write": false
   }
