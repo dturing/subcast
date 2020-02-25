@@ -14,11 +14,11 @@ export class ScUpstream {
   }
 
   componentDidLoad() {
-    console.log("Trying to GetUserMedia");
+    console.log("Trying to GetUserMedia", navigator.mediaDevices);
     navigator.mediaDevices
       .getUserMedia({audio:true, video:{ facingMode:"environment" }})
       .then(stream => {
-        console.log("I have a Stream:", stream);
+        console.log("I do have a Stream:", stream);
         this.stream = stream;
 
         const videoTracks = stream.getVideoTracks();
@@ -47,6 +47,9 @@ export class ScUpstream {
 
         <sc-audioviz stream={this.stream}></sc-audioviz>
         <sc-preview videoElement={this.videoElement}></sc-preview>
+        <sc-geolocation />
+        <sc-userprop name="foo" value="bar"/>
+        <sc-userprop name="rate" value={50} type="rate"/>
       </div>
   }
 

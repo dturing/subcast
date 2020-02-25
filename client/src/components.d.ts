@@ -44,12 +44,18 @@ export namespace Components {
   interface ScAudioviz {
     'stream': MediaStream;
   }
+  interface ScGeolocation {}
   interface ScPreview {
     'height': number;
     'videoElement': HTMLVideoElement;
     'width': number;
   }
   interface ScUpstream {}
+  interface ScUserprop {
+    'name': string;
+    'type': string;
+    'value': any;
+  }
 }
 
 declare global {
@@ -115,6 +121,12 @@ declare global {
     new (): HTMLScAudiovizElement;
   };
 
+  interface HTMLScGeolocationElement extends Components.ScGeolocation, HTMLStencilElement {}
+  var HTMLScGeolocationElement: {
+    prototype: HTMLScGeolocationElement;
+    new (): HTMLScGeolocationElement;
+  };
+
   interface HTMLScPreviewElement extends Components.ScPreview, HTMLStencilElement {}
   var HTMLScPreviewElement: {
     prototype: HTMLScPreviewElement;
@@ -125,6 +137,12 @@ declare global {
   var HTMLScUpstreamElement: {
     prototype: HTMLScUpstreamElement;
     new (): HTMLScUpstreamElement;
+  };
+
+  interface HTMLScUserpropElement extends Components.ScUserprop, HTMLStencilElement {}
+  var HTMLScUserpropElement: {
+    prototype: HTMLScUserpropElement;
+    new (): HTMLScUserpropElement;
   };
   interface HTMLElementTagNameMap {
     'app-404': HTMLApp404Element;
@@ -137,8 +155,10 @@ declare global {
     'mdc-textfield': HTMLMdcTextfieldElement;
     'raum-test': HTMLRaumTestElement;
     'sc-audioviz': HTMLScAudiovizElement;
+    'sc-geolocation': HTMLScGeolocationElement;
     'sc-preview': HTMLScPreviewElement;
     'sc-upstream': HTMLScUpstreamElement;
+    'sc-userprop': HTMLScUserpropElement;
   }
 }
 
@@ -178,12 +198,22 @@ declare namespace LocalJSX {
   interface ScAudioviz extends JSXBase.HTMLAttributes<HTMLScAudiovizElement> {
     'stream'?: MediaStream;
   }
+  interface ScGeolocation extends JSXBase.HTMLAttributes<HTMLScGeolocationElement> {
+    'onUpdateUserProp'?: (event: CustomEvent<any>) => void;
+  }
   interface ScPreview extends JSXBase.HTMLAttributes<HTMLScPreviewElement> {
     'height'?: number;
+    'onUpdateUserProp'?: (event: CustomEvent<any>) => void;
     'videoElement'?: HTMLVideoElement;
     'width'?: number;
   }
   interface ScUpstream extends JSXBase.HTMLAttributes<HTMLScUpstreamElement> {}
+  interface ScUserprop extends JSXBase.HTMLAttributes<HTMLScUserpropElement> {
+    'name'?: string;
+    'onUpdateUserProp'?: (event: CustomEvent<any>) => void;
+    'type'?: string;
+    'value'?: any;
+  }
 
   interface IntrinsicElements {
     'app-404': App404;
@@ -196,8 +226,10 @@ declare namespace LocalJSX {
     'mdc-textfield': MdcTextfield;
     'raum-test': RaumTest;
     'sc-audioviz': ScAudioviz;
+    'sc-geolocation': ScGeolocation;
     'sc-preview': ScPreview;
     'sc-upstream': ScUpstream;
+    'sc-userprop': ScUserprop;
   }
 }
 

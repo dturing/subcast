@@ -1,4 +1,4 @@
-import { Component, Prop, State, Event, EventEmitter, h } from '@stencil/core';
+import { Component, State, Event, EventEmitter, h } from '@stencil/core';
 
 @Component({
   tag: 'sc-geolocation',
@@ -10,11 +10,8 @@ export class ScGeolocation {
   @State() lat: number;
   @State() lon: number;
 
-  @Prop() path: string;
-
   @Event() updateUserProp: EventEmitter;
 
-  
 
   componentDidLoad() {
     this.registerForUpdates();

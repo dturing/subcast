@@ -1,4 +1,4 @@
-import { Component, h } from '@stencil/core';
+import { Component, Listen, h } from '@stencil/core';
 import firebase from 'firebase/app';
 import Firebase from '../../services/firebase';
 
@@ -9,6 +9,16 @@ import Firebase from '../../services/firebase';
 })
 export class RaumTest {
 
+  activePath:firebase.database.Reference;
+  userProps = {};
+
+  @Listen("updateUserProp")
+  handleUpdateUserProp( e:CustomEvent ) {
+//    console.log("updateUserProp", e.detail);
+    Object.assign(this.userProps, e.detail);
+    this.activePath.set(this.userProps);
+  }
+
   componentDidLoad() {
 
     Firebase.onAuthorized((user) => {
@@ -16,23 +26,14 @@ export class RaumTest {
       var userName = user.isAnonymous?"anon":user.displayName;
       console.log("Firebase authorized.", userName);
 
-      var activePath = firebase.database().ref("/rebel/"+user.uid);
+      this.activePath = firebase.database().ref("/feed/"+user.uid);
 
-      activePath.onDisconnect().remove().then(()=>{
+      this.activePath.onDisconnect().remove().then(()=>{
 
-        if (navigator.geolocation) {
-          navigator.geolocation.watchPosition((p) => {
-            let t = { 
-                t:p.timestamp,
-                n:userName,
-                lat:p.coords.latitude, lon:p.coords.longitude
-              };
-            console.log("- set geolocation", t);
-            activePath.set(t);
-          });
-        } else {
-          console.log("need geolocation");
-        }
+        this.userProps = { 
+          n:userName,
+          t:firebase.database.ServerValue.TIMESTAMP
+        };
 
       });
 

@@ -1,4 +1,4 @@
-import { Component, Prop, Watch, State, h } from '@stencil/core';
+import { Component, Prop, Watch, State, Event, EventEmitter, h } from '@stencil/core';
 
 @Component({
   tag: 'sc-preview',
@@ -13,20 +13,25 @@ export class ScPreview {
   @State() canvas: HTMLCanvasElement;
   @State() photo: HTMLImageElement;
 
-  @Prop() videoElement :HTMLVideoElement;
+  @Prop() videoElement: HTMLVideoElement;
+
+
+  @Event() updateUserProp: EventEmitter;
+
 
   @Watch("videoElement")
   haveVideoElement(videoElement) {
-    console.log("AudioViz has videoElement:", videoElement);
+    console.log("ScPreview has videoElement:", videoElement);
 
     var ctx = this.canvas.getContext("2d");
 
     setInterval(()=>{
       ctx.drawImage(videoElement, 0, 0, this.width, this.height);
 
-      var data = this.canvas.toDataURL('image/png');
-      //console.log(data);
+      var data = this.canvas.toDataURL('image/jpeg');
+      //(console.log(data);
       this.photo.setAttribute('src', data);
+      this.updateUserProp.emit({ preview: data });
 
     }, 1000);
 
