@@ -16,7 +16,7 @@ export class RaumTest {
   handleUpdateUserProp( e:CustomEvent ) {
 //    console.log("updateUserProp", e.detail);
     Object.assign(this.userProps, e.detail);
-    this.activePath.set(this.userProps);
+    if (this.activePath) this.activePath.set(this.userProps);
   }
 
   componentDidLoad() {
@@ -30,10 +30,10 @@ export class RaumTest {
 
       this.activePath.onDisconnect().remove().then(()=>{
 
-        this.userProps = { 
+        Object.assign(this.userProps, { 
           n:userName,
           t:firebase.database.ServerValue.TIMESTAMP
-        };
+        });
 
       });
 
@@ -58,7 +58,11 @@ export class RaumTest {
 
 
   render() {
-    return <div><sc-upstream /></div>
+    return <div>
+        <sc-viewer />
+        <sc-browsercam />
+
+      </div>
   }
 
 }
